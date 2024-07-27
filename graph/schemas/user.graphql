@@ -1,0 +1,34 @@
+interface IUser {
+  id: ID!
+  name: String!
+  setor: String!
+}
+
+type User implements IUser {
+  id: ID!
+  name: String!
+  setor: String!
+  username: String!
+  password: String!
+}
+
+type ResponseCreateUser implements IUser {
+  id: ID!
+  name: String!
+  setor: String!
+}
+
+input UserInput {
+  name: String!
+  setor: String!
+  username: String!
+  password: String!
+}
+
+extend type Query {
+  GetUser: User
+}
+
+extend type Mutation {
+  CreateUser(input: UserInput): ResponseCreateUser
+}

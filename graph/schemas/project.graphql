@@ -1,0 +1,19 @@
+type Project {
+  id: ID!
+  name: String!
+  leader: User!
+}
+
+input InputProject {
+  id: ID!
+  name: String!
+  leader: UserInput!
+}
+
+extend type Query {
+  GetProject(id: ID!): Project
+}
+
+extend type Mutation {
+  CreateProject(input: InputProject): Project
+}
