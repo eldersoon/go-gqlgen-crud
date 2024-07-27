@@ -16,6 +16,7 @@ type ResponseCreateUser implements IUser {
   id: ID!
   name: String!
   setor: String!
+  message: String!
 }
 
 input UserInput {

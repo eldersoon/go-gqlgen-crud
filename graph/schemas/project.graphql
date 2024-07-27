@@ -4,10 +4,17 @@ type Project {
   leader: User!
 }
 
+type ResponseCreateProject {
+  id: ID!
+  name: String!
+  userId: ID!
+  message: String!
+}
+
 input InputProject {
   id: ID!
   name: String!
-  leader: UserInput!
+  userId: ID!
 }
 
 extend type Query {
@@ -15,5 +22,5 @@ extend type Query {
 }
 
 extend type Mutation {
-  CreateProject(input: InputProject): Project
+  CreateProject(input: InputProject): ResponseCreateProject
 }

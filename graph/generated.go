@@ -65,10 +65,18 @@ type ComplexityRoot struct {
 		GetUser    func(childComplexity int) int
 	}
 
+	ResponseCreateProject struct {
+		ID      func(childComplexity int) int
+		Message func(childComplexity int) int
+		Name    func(childComplexity int) int
+		UserID  func(childComplexity int) int
+	}
+
 	ResponseCreateUser struct {
-		ID    func(childComplexity int) int
-		Name  func(childComplexity int) int
-		Setor func(childComplexity int) int
+		ID      func(childComplexity int) int
+		Message func(childComplexity int) int
+		Name    func(childComplexity int) int
+		Setor   func(childComplexity int) int
 	}
 
 	User struct {
@@ -82,7 +90,7 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	Empty(ctx context.Context) (*string, error)
-	CreateProject(ctx context.Context, input *model.InputProject) (*model.Project, error)
+	CreateProject(ctx context.Context, input *model.InputProject) (*model.ResponseCreateProject, error)
 	CreateUser(ctx context.Context, input *model.UserInput) (*model.ResponseCreateUser, error)
 }
 type QueryResolver interface {
@@ -188,12 +196,47 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetUser(childComplexity), true
 
+	case "ResponseCreateProject.id":
+		if e.complexity.ResponseCreateProject.ID == nil {
+			break
+		}
+
+		return e.complexity.ResponseCreateProject.ID(childComplexity), true
+
+	case "ResponseCreateProject.message":
+		if e.complexity.ResponseCreateProject.Message == nil {
+			break
+		}
+
+		return e.complexity.ResponseCreateProject.Message(childComplexity), true
+
+	case "ResponseCreateProject.name":
+		if e.complexity.ResponseCreateProject.Name == nil {
+			break
+		}
+
+		return e.complexity.ResponseCreateProject.Name(childComplexity), true
+
+	case "ResponseCreateProject.userId":
+		if e.complexity.ResponseCreateProject.UserID == nil {
+			break
+		}
+
+		return e.complexity.ResponseCreateProject.UserID(childComplexity), true
+
 	case "ResponseCreateUser.id":
 		if e.complexity.ResponseCreateUser.ID == nil {
 			break
 		}
 
 		return e.complexity.ResponseCreateUser.ID(childComplexity), true
+
+	case "ResponseCreateUser.message":
+		if e.complexity.ResponseCreateUser.Message == nil {
+			break
+		}
+
+		return e.complexity.ResponseCreateUser.Message(childComplexity), true
 
 	case "ResponseCreateUser.name":
 		if e.complexity.ResponseCreateUser.Name == nil {
@@ -534,9 +577,9 @@ func (ec *executionContext) _Mutation_CreateProject(ctx context.Context, field g
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*model.Project)
+	res := resTmp.(*model.ResponseCreateProject)
 	fc.Result = res
-	return ec.marshalOProject2ᚖgoᚑgqlgenᚋgraphᚋmodelᚐProject(ctx, field.Selections, res)
+	return ec.marshalOResponseCreateProject2ᚖgoᚑgqlgenᚋgraphᚋmodelᚐResponseCreateProject(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_CreateProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -548,13 +591,15 @@ func (ec *executionContext) fieldContext_Mutation_CreateProject(ctx context.Cont
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
-				return ec.fieldContext_Project_id(ctx, field)
+				return ec.fieldContext_ResponseCreateProject_id(ctx, field)
 			case "name":
-				return ec.fieldContext_Project_name(ctx, field)
-			case "leader":
-				return ec.fieldContext_Project_leader(ctx, field)
+				return ec.fieldContext_ResponseCreateProject_name(ctx, field)
+			case "userId":
+				return ec.fieldContext_ResponseCreateProject_userId(ctx, field)
+			case "message":
+				return ec.fieldContext_ResponseCreateProject_message(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Project", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type ResponseCreateProject", field.Name)
 		},
 	}
 	defer func() {
@@ -613,6 +658,8 @@ func (ec *executionContext) fieldContext_Mutation_CreateUser(ctx context.Context
 				return ec.fieldContext_ResponseCreateUser_name(ctx, field)
 			case "setor":
 				return ec.fieldContext_ResponseCreateUser_setor(ctx, field)
+			case "message":
+				return ec.fieldContext_ResponseCreateUser_message(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type ResponseCreateUser", field.Name)
 		},
@@ -1058,6 +1105,182 @@ func (ec *executionContext) fieldContext_Query___schema(_ context.Context, field
 	return fc, nil
 }
 
+func (ec *executionContext) _ResponseCreateProject_id(ctx context.Context, field graphql.CollectedField, obj *model.ResponseCreateProject) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ResponseCreateProject_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ResponseCreateProject_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ResponseCreateProject",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ResponseCreateProject_name(ctx context.Context, field graphql.CollectedField, obj *model.ResponseCreateProject) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ResponseCreateProject_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ResponseCreateProject_name(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ResponseCreateProject",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ResponseCreateProject_userId(ctx context.Context, field graphql.CollectedField, obj *model.ResponseCreateProject) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ResponseCreateProject_userId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UserID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ResponseCreateProject_userId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ResponseCreateProject",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ResponseCreateProject_message(ctx context.Context, field graphql.CollectedField, obj *model.ResponseCreateProject) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ResponseCreateProject_message(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Message, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ResponseCreateProject_message(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ResponseCreateProject",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ResponseCreateUser_id(ctx context.Context, field graphql.CollectedField, obj *model.ResponseCreateUser) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ResponseCreateUser_id(ctx, field)
 	if err != nil {
@@ -1178,6 +1401,50 @@ func (ec *executionContext) _ResponseCreateUser_setor(ctx context.Context, field
 }
 
 func (ec *executionContext) fieldContext_ResponseCreateUser_setor(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ResponseCreateUser",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ResponseCreateUser_message(ctx context.Context, field graphql.CollectedField, obj *model.ResponseCreateUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ResponseCreateUser_message(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Message, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ResponseCreateUser_message(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "ResponseCreateUser",
 		Field:      field,
@@ -3190,7 +3457,7 @@ func (ec *executionContext) unmarshalInputInputProject(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "leader"}
+	fieldsInOrder := [...]string{"id", "name", "userId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -3211,13 +3478,13 @@ func (ec *executionContext) unmarshalInputInputProject(ctx context.Context, obj 
 				return it, err
 			}
 			it.Name = data
-		case "leader":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("leader"))
-			data, err := ec.unmarshalNUserInput2ᚖgoᚑgqlgenᚋgraphᚋmodelᚐUserInput(ctx, v)
+		case "userId":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
+			data, err := ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Leader = data
+			it.UserID = data
 		}
 	}
 
@@ -3513,6 +3780,60 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 	return out
 }
 
+var responseCreateProjectImplementors = []string{"ResponseCreateProject"}
+
+func (ec *executionContext) _ResponseCreateProject(ctx context.Context, sel ast.SelectionSet, obj *model.ResponseCreateProject) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, responseCreateProjectImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ResponseCreateProject")
+		case "id":
+			out.Values[i] = ec._ResponseCreateProject_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._ResponseCreateProject_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "userId":
+			out.Values[i] = ec._ResponseCreateProject_userId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "message":
+			out.Values[i] = ec._ResponseCreateProject_message(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var responseCreateUserImplementors = []string{"ResponseCreateUser", "IUser"}
 
 func (ec *executionContext) _ResponseCreateUser(ctx context.Context, sel ast.SelectionSet, obj *model.ResponseCreateUser) graphql.Marshaler {
@@ -3536,6 +3857,11 @@ func (ec *executionContext) _ResponseCreateUser(ctx context.Context, sel ast.Sel
 			}
 		case "setor":
 			out.Values[i] = ec._ResponseCreateUser_setor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "message":
+			out.Values[i] = ec._ResponseCreateUser_message(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -4002,11 +4328,6 @@ func (ec *executionContext) marshalNUser2ᚖgoᚑgqlgenᚋgraphᚋmodelᚐUser(c
 	return ec._User(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNUserInput2ᚖgoᚑgqlgenᚋgraphᚋmodelᚐUserInput(ctx context.Context, v interface{}) (*model.UserInput, error) {
-	res, err := ec.unmarshalInputUserInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx context.Context, sel ast.SelectionSet, v introspection.Directive) graphql.Marshaler {
 	return ec.___Directive(ctx, sel, &v)
 }
@@ -4299,6 +4620,13 @@ func (ec *executionContext) marshalOProject2ᚖgoᚑgqlgenᚋgraphᚋmodelᚐPro
 		return graphql.Null
 	}
 	return ec._Project(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOResponseCreateProject2ᚖgoᚑgqlgenᚋgraphᚋmodelᚐResponseCreateProject(ctx context.Context, sel ast.SelectionSet, v *model.ResponseCreateProject) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._ResponseCreateProject(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOResponseCreateUser2ᚖgoᚑgqlgenᚋgraphᚋmodelᚐResponseCreateUser(ctx context.Context, sel ast.SelectionSet, v *model.ResponseCreateUser) graphql.Marshaler {

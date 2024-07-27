@@ -10,9 +10,9 @@ type IUser interface {
 }
 
 type InputProject struct {
-	ID     string     `json:"id"`
-	Name   string     `json:"name"`
-	Leader *UserInput `json:"leader"`
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	UserID string `json:"userId"`
 }
 
 type Mutation struct {
@@ -27,10 +27,18 @@ type Project struct {
 type Query struct {
 }
 
+type ResponseCreateProject struct {
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	UserID  string `json:"userId"`
+	Message string `json:"message"`
+}
+
 type ResponseCreateUser struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Setor string `json:"setor"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Setor   string `json:"setor"`
+	Message string `json:"message"`
 }
 
 func (ResponseCreateUser) IsIUser()              {}

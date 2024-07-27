@@ -11,8 +11,12 @@ import (
 )
 
 // CreateProject is the resolver for the CreateProject field.
-func (r *mutationResolver) CreateProject(ctx context.Context, input *model.InputProject) (*model.Project, error) {
-	panic(fmt.Errorf("not implemented: CreateProject - CreateProject"))
+func (r *mutationResolver) CreateProject(ctx context.Context, input *model.InputProject) (*model.ResponseCreateProject, error) {
+	return &model.ResponseCreateProject{
+		Name:    "P71",
+		UserID:  "s1",
+		Message: "project was created!",
+	}, nil
 }
 
 // GetProject is the resolver for the GetProject field.
